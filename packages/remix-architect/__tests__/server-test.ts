@@ -220,8 +220,7 @@ describe("architect createRemixHeaders", () => {
         Headers {
           Symbol(map): Object {
             "Cookie": Array [
-              "__session=some_value; Path=/; Secure; HttpOnly; MaxAge=7200; SameSite=Lax",
-              "__other=some_other_value; Path=/; Secure; HttpOnly; Expires=Wed, 21 Oct 2015 07:28:00 GMT; SameSite=Lax",
+              "__session=some_value; Path=/; Secure; HttpOnly; MaxAge=7200; SameSite=Lax; __other=some_other_value; Path=/; Secure; HttpOnly; Expires=Wed, 21 Oct 2015 07:28:00 GMT; SameSite=Lax",
             ],
             "x-something-else": Array [
               "true",
@@ -260,6 +259,75 @@ describe("architect createRemixRequest", () => {
             Symbol(map): Object {
               "Cookie": Array [
                 "__session=value",
+              ],
+              "accept": Array [
+                "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+              ],
+              "accept-encoding": Array [
+                "gzip, deflate",
+              ],
+              "accept-language": Array [
+                "en-US,en;q=0.9",
+              ],
+              "host": Array [
+                "localhost:3333",
+              ],
+              "upgrade-insecure-requests": Array [
+                "1",
+              ],
+              "user-agent": Array [
+                "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/15.0 Safari/605.1.15",
+              ],
+            },
+          },
+          "method": "GET",
+          "parsedURL": Url {
+            "auth": null,
+            "hash": null,
+            "host": "localhost:3333",
+            "hostname": "localhost",
+            "href": "https://localhost:3333/",
+            "path": "/",
+            "pathname": "/",
+            "port": "3333",
+            "protocol": "https:",
+            "query": null,
+            "search": null,
+            "slashes": true,
+          },
+          "redirect": "follow",
+          "signal": undefined,
+        },
+      }
+    `);
+  });
+
+  it("creates a request with multiple cookies", () => {
+    expect(
+      createRemixRequest(
+        createMockEvent({
+          cookies: ["__session=value", "__other=value"]
+        })
+      )
+    ).toMatchInlineSnapshot(`
+      NodeRequest {
+        "abortController": undefined,
+        "agent": undefined,
+        "compress": true,
+        "counter": 0,
+        "follow": 20,
+        "size": 0,
+        "timeout": 0,
+        Symbol(Body internals): Object {
+          "body": null,
+          "disturbed": false,
+          "error": null,
+        },
+        Symbol(Request internals): Object {
+          "headers": Headers {
+            Symbol(map): Object {
+              "Cookie": Array [
+                "__session=value; __other=value",
               ],
               "accept": Array [
                 "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
