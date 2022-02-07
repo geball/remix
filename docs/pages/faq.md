@@ -41,7 +41,7 @@ export async function requireUserSession(request) {
 And now in any loader or action that requires a user session, you can call the function.
 
 ```tsx filename=app/routes/projects.jsx lines=[3]
-export function loader({ request }) {
+export async function loader({ request }) {
   // if the user isn't authenticated, this will redirect to login
   const session = await requireUserSession(request);
 
@@ -82,7 +82,7 @@ We find option (1) to be the simplest because you don't have to mess around with
 HTML buttons can send a value, so it's the easiest way to implement this:
 
 ```jsx filename=app/routes/projects/$id.jsx lines=[3-4,33,39]
-export function action({ request }) {
+export async function action({ request }) {
   let formData = await request.formData();
   let action = formData.get("_action");
   switch (action) {
